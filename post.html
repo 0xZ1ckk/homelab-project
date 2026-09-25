@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing an OU structure for a fake company | Your Name</title>
+  <meta name="description" content="How I laid out organizational units in my lab's Active Directory, and why.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="site-title" href="index.html">Your Name <span>homelab notes</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="archives.html">Archive</a></li>
+        <li><a href="https://github.com/your-username/homelab">GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="content">
+    <article class="post">
+      <header class="post-header">
+        <h1>Designing an OU structure for a fake company</h1>
+        <div class="post-meta">
+          <time datetime="2026-09-15">15 September 2026</time>
+          <span class="tag">Active Directory</span>
+        </div>
+      </header>
+
+      <div class="post-body">
+        <p>Replace this with your own write-up. A structure that works well: what you set out to do, what you built, why you made the choices you did, and what went wrong.</p>
+
+        <h2>The goal</h2>
+        <p>Before creating any users, I wanted a layout that would make Group Policy easy to apply later. Policies link to OUs, so the structure decides what you can target.</p>
+
+        <h2>The layout</h2>
+        <pre><code>yourcompany.local
+├── Departments
+│   ├── Sales
+│   ├── IT
+│   └── Management
+├── Groups
+├── Service Accounts
+├── Servers
+└── Admin Accounts</code></pre>
+
+        <h2>Why it looks like this</h2>
+        <ul>
+          <li><strong>Departments</strong> hold normal user accounts, so I can apply different policies per team.</li>
+          <li><strong>Admin Accounts</strong> are kept apart from everyday accounts, so admin logins can have stricter rules.</li>
+          <li><strong>Service Accounts</strong> get their own OU so I can block interactive logon for them.</li>
+        </ul>
+
+        <h2>Creating it with PowerShell</h2>
+        <pre><code>New-ADOrganizationalUnit -Name "Departments" -Path "DC=yourcompany,DC=local"
+New-ADOrganizationalUnit -Name "Sales" -Path "OU=Departments,DC=yourcompany,DC=local"</code></pre>
+
+        <h2>What went wrong</h2>
+        <p>Describe a problem you hit, what caused it, and how you fixed it. These sections are the ones interviewers enjoy most.</p>
+      </div>
+
+      <nav class="post-nav" aria-label="More posts">
+        <a href="post.html">Previous: Joining Windows 10 clients to the domain</a>
+        <a href="post.html">Next: Writing my first GPOs</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>Written and built by Your Name. Hosted on GitHub Pages.</p>
+  </footer>
+</body>
+</html>
